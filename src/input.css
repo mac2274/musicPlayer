@@ -1,10 +1,23 @@
 @import "tailwindcss";
 
 @font-face {
-    font-family: "Lavishly-Yours";
-    src: url("./fonts/lavishly-yours-v7-latin-regular.woff2") format("woff2");
+    font-family: "Poiret-One";
+    src: url("./fonts/poiret-one-v18-latin-regular.woff2") format("woff2");
 }
 
-h1 {
-    font-family: "Lavishly-Yours";
+.bg-image {
+    background-image: url('./img/alexander-grey-NkQD-RHhbvY-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+h1,
+h2 {
+    font-family: "Poiret-One";
+}
+
+.play-image {
+    background-image: url(./img/drew-colins-LIEQsu5JuoM-unsplash.jpg);
+    background-size: cover;
+    background-position: bottom;
 }

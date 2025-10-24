@@ -10,10 +10,37 @@
 </head>
 
 <body class="w-full h-screen">
-    <div class="flex flex-col gap-4 bg-red-800 border-red-600 border-2 h-full w-full flex justify-center items-center">
+    <div class="bg-image flex flex-col justify-center items-center gap-4 h-full w-full">
         <h1 class="text-6xl">Mein Player</h1>
-        <div class="flex flex-col items-center justify-center bg-red-800 border-white text-white">
-            <p class="text-2xl text-red-400">Hallo Music!</p>
+        <div class="flex flex-col gap-2 justify-center p-4 rounded-2xl">
+            <div class="play-image h-80 w-60 p-4 flex flex-col items-center justify-end rounded-2xl border-white border-4 text-white">
+                <div class="flex flex-col bg-black/40 p-4 w-full justify-end items-center rounded-2xl">
+                    <p class="flex justify-center items-center rounded-2xl">Song</p>
+
+                    <div class="flex items-center gap-2">
+                        <!-- Backward -->
+                        <svg class="w-8 h-8 hover:text-black cursor-pointer transition-all duration-500 cursor-pointer"
+                            fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M18.42 7.11L12.65 11.2c-.56.4-.56 1.24 0 1.63l5.77 4.07c.67.47 1.58 0 1.58-.82V7.93c0-.81-.91-1.28-1.58-.82zM11 16.07V7.93c0-.81-.91-1.28-1.58-.82L3.65 11.2c-.56.4-.56 1.24 0 1.63l5.77 4.07c.67.47 1.58 0 1.58-.82z" />
+                        </svg>
+
+                        <!-- Play -->
+                        <svg class="w-10 h-10 hover:text-black cursor-pointer transition-all duration-500 cursor-pointer"
+                            fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+
+                        <!-- Fast Forward -->
+                        <svg class="w-8 h-8 hover:text-black cursor-pointer transition-all duration-500 cursor-pointer"
+                            fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M5.58 16.89l5.77-4.07c.56-.4.56-1.24 0-1.63L5.58 7.11C4.91 6.65 4 7.12 4 7.93v8.14c0 .81.91 1.28 1.58.82zM13 7.93v8.14c0 .81.91 1.28 1.58.82l5.77-4.07c.56-.4.56-1.24 0-1.63l-5.77-4.07c-.67-.47-1.58 0-1.58.81z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </body>
