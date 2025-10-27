@@ -11,7 +11,7 @@
 
 <body class="w-full h-screen">
     <div class="bg-image flex flex-col justify-center items-center gap-4 h-full w-full">
-        <h1 class="text-6xl">Mein Player</h1>
+        <h1 class="text-6xl text-center">Mein Player</h1>
         <div class="flex flex-col gap-2 justify-center p-4 rounded-2xl">
             <div
                 class="images image1 h-80 w-60 p-4 flex flex-col items-center justify-end rounded-2xl border-white border-4 text-white">
@@ -61,9 +61,9 @@
                             style="width: 0%">
                         </div>
                     </div>
-                    <div class="flex justify-between text-xs text-white mt-1">
+                    <div class="flex justify-between gap-1 text-xs text-white mt-1">
                         <span id="currentTime">0:00</span>
-                        <span id="duration">0:00</span>
+                        <span id="duration">(0:00)</span>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@
         const currentTimeEl = document.getElementById('currentTime');
         const durationEl = document.getElementById('duration');
 
-        // Bildwechsel beim Songwechsel
+        // Bild- und Titelwechsel beim Songwechsel
         function changeImage() {
             if (!song1.paused) {
                 imageContainer.classList.add('image1'); // Bild1
@@ -96,7 +96,7 @@
             }
         }
 
-        // Vernderung wenn ein Lied spielt
+        // Veränderung der Buttons, wenn ein Lied spielt
         function stateOfSong() {
             // wenn ein Lied spielt
             if (!song1.paused || !song2.paused) {
@@ -109,16 +109,18 @@
             }
         }
 
+        // music progress line
         function updateProgress() {
-            // const audio = !song1.paused ? song1 : !song2.paused ? song2 : null; =
-            let audio;
-            if (!song1.paused) {
-                audio = song1;
-            } else if (!song2.paused) {
-                audio = song2;
-            } else {
-                audio = null;
-            }
+            const audio = !song1.paused ? song1 : !song2.paused ? song2 : null;
+
+            // = let audio;
+            // if (!song1.paused) {
+            //     audio = song1;
+            // } else if (!song2.paused) {
+            //     audio = song2;
+            // } else {
+            //     audio = null;
+            // }
 
             if (audio && audio.duration) {
                 const progress = (audio.currentTime / audio.duration) * 100;
@@ -128,17 +130,16 @@
         }
 
         function updateDuration() {
-            // const audio = song1.duration ? song1 : song2.duration ? song2 : null; =
             let audio;
             console.log('Song1 duration:', song1.duration);
             console.log('Song2 duration:', song2.duration);
 
-            if (song1.duration) {
+            if (!song1.paused) {
                 audio = song1;
-            } else if (!song2.duration) {
+            } else if (!song2.paused) {
                 audio = song2;
             } else {
-                audio = null;
+                audio = song1.duration ? song1 : song2.duration ? song2 : null
             }
 
             if (audio && audio.duration) {
@@ -159,7 +160,7 @@
             } else if (!song2.paused) {
                 song2.pause();
             } else {
-                song1.load();
+                song1.play();
             }
 
             stateOfSong();

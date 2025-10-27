@@ -25,5 +25,5 @@ h2, p {
 .image2 {
     background-image: url(./img/diego-sanchez-HVXu9TAtJo4-unsplash.jpg);
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
 }
