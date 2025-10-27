@@ -66,33 +66,35 @@
         const song2 = document.querySelector('#song2');
         const audio = document.querySelector('audio');
 
-        playButton.addEventListener('click', (event) => {
-            if (!song1.paused) {
-                song1.pause();
-                playButton.classList.add('hidden');
-                pauseButton.classList.remove('hidden');
-            } else if (!song2.paused){
-                song2.play();
+        function stateOfSong() {
+            // wenn ein Lied spielt
+            if (!song1.paused || !song2.paused) {
                 playButton.classList.add('hidden');
                 pauseButton.classList.remove('hidden');
             } else {
-                song1.play();
-                playButton.classList.add('hidden');
-                pauseButton.classList.remove('hidden');
-            }
-        });
-
-        pauseButton.addEventListener('click', (event) => {
-            if (!audio.paused) {
-                audio.pause();
+                // wenn kein Lied spielt
                 playButton.classList.remove('hidden');
                 pauseButton.classList.add('hidden');
-            } else {
-                audio.play();
-                playButton.classList.add('hidden');
-                pauseButton.classList.remove('hidden');
             }
-            });
+        }
+
+        playButton.addEventListener('click', () => {
+            if(song1.paused){
+                song1.play()
+            } else {
+                song2.play();
+            }
+            stateOfSong(); // 👈 HIER
+        })
+
+        pauseButton.addEventListener('click', () => {
+            if(!song1.paused) {
+                song1.pause();
+            } else {
+                song2.pause();
+            }
+            stateOfSong(); // 👈 HIER
+        })
 
         fastForwardsButton.addEventListener('click', () => {
             if (!song1.paused) {
@@ -104,6 +106,7 @@
             } else {
                 song1.play();
             }
+            stateOfSong();
         })
 
         rewindButton.addEventListener('click', () => {
@@ -116,9 +119,9 @@
             } else {
                 song2.play();
             }
+            stateOfSong();
         })
 
-        console.log('Pause Button - audio.paused:', audio.paused);
     </script>
 </body>
 
