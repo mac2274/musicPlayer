@@ -16,8 +16,14 @@ h2, p {
     font-family: "Poiret-One";
 }
 
-.play-image1 {
+.image1 {
     background-image: url(./img/drew-colins-LIEQsu5JuoM-unsplash.jpg);
     background-size: cover;
     background-position: bottom;
+}
+
+.image2 {
+    background-image: url(./img/diego-sanchez-HVXu9TAtJo4-unsplash.jpg);
+    background-size: cover;
+    background-position: center;
 }

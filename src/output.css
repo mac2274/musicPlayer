@@ -7,9 +7,15 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-green-500: oklch(72.3% 0.219 149.579);
+    --color-gray-200: oklch(92.8% 0.006 264.531);
+    --color-stone-600: oklch(44.4% 0.011 73.639);
+    --color-stone-900: oklch(21.6% 0.006 56.043);
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
+    --text-xs: 0.75rem;
+    --text-xs--line-height: calc(1 / 0.75);
     --text-6xl: 3.75rem;
     --text-6xl--line-height: 1;
     --radius-2xl: 1rem;
@@ -168,14 +174,17 @@
   }
 }
 @layer utilities {
+  .mt-1 {
+    margin-top: calc(var(--spacing) * 1);
+  }
   .flex {
     display: flex;
   }
   .hidden {
     display: none;
   }
-  .h-8 {
-    height: calc(var(--spacing) * 8);
+  .h-1 {
+    height: calc(var(--spacing) * 1);
   }
   .h-10 {
     height: calc(var(--spacing) * 10);
@@ -188,9 +197,6 @@
   }
   .h-screen {
     height: 100vh;
-  }
-  .w-8 {
-    width: calc(var(--spacing) * 8);
   }
   .w-10 {
     width: calc(var(--spacing) * 10);
@@ -210,6 +216,9 @@
   .items-center {
     align-items: center;
   }
+  .justify-between {
+    justify-content: space-between;
+  }
   .justify-center {
     justify-content: center;
   }
@@ -225,16 +234,12 @@
   .rounded-2xl {
     border-radius: var(--radius-2xl);
   }
-  .border-2 {
-    border-style: var(--tw-border-style);
-    border-width: 2px;
+  .rounded-full {
+    border-radius: calc(infinity * 1px);
   }
   .border-4 {
     border-style: var(--tw-border-style);
     border-width: 4px;
-  }
-  .border-transparent {
-    border-color: transparent;
   }
   .border-white {
     border-color: var(--color-white);
@@ -245,12 +250,28 @@
       background-color: color-mix(in oklab, var(--color-black) 40%, transparent);
     }
   }
+  .bg-gray-200 {
+    background-color: var(--color-gray-200);
+  }
+  .bg-green-500 {
+    background-color: var(--color-green-500);
+  }
+  .bg-stone-600 {
+    background-color: var(--color-stone-600);
+  }
+  .bg-stone-900 {
+    background-color: var(--color-stone-900);
+  }
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }
   .text-6xl {
     font-size: var(--text-6xl);
     line-height: var(--tw-leading, var(--text-6xl--line-height));
+  }
+  .text-xs {
+    font-size: var(--text-xs);
+    line-height: var(--tw-leading, var(--text-xs--line-height));
   }
   .text-white {
     color: var(--color-white);
@@ -260,16 +281,13 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
+  .duration-100 {
+    --tw-duration: 100ms;
+    transition-duration: 100ms;
+  }
   .duration-500 {
     --tw-duration: 500ms;
     transition-duration: 500ms;
-  }
-  .hover\:border-white {
-    &:hover {
-      @media (hover: hover) {
-        border-color: var(--color-white);
-      }
-    }
   }
   .hover\:text-black {
     &:hover {
@@ -291,10 +309,15 @@
 h1, h2, p {
   font-family: "Poiret-One";
 }
-.play-image1 {
+.image1 {
   background-image: url(./img/drew-colins-LIEQsu5JuoM-unsplash.jpg);
   background-size: cover;
   background-position: bottom;
+}
+.image2 {
+  background-image: url(./img/diego-sanchez-HVXu9TAtJo4-unsplash.jpg);
+  background-size: cover;
+  background-position: center;
 }
 @property --tw-border-style {
   syntax: "*";

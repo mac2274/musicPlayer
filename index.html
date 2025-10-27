@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./src/output.css?v=2" rel="stylesheet">
+    <link href="./src/output.css?v=3" rel="stylesheet">
 
     <title>Music Player</title>
 </head>
@@ -14,20 +14,20 @@
         <h1 class="text-6xl">Mein Player</h1>
         <div class="flex flex-col gap-2 justify-center p-4 rounded-2xl">
             <div
-                class="play-image1 h-80 w-60 p-4 flex flex-col items-center justify-end rounded-2xl border-white border-4 text-white">
+                class="images image1 h-80 w-60 p-4 flex flex-col items-center justify-end rounded-2xl border-white border-4 text-white">
                 <div class="flex flex-col bg-black/40 p-4 w-full justify-end items-center rounded-2xl">
-                    <p class="flex justify-center items-center rounded-2xl">Song</p>
+                    <p class="songTitle flex justify-center items-center rounded-2xl"></p>
 
                     <div class="flex items-center gap-2"> <!-- Player -->
 
-                        <audio id="song1"> <!-- Music -->
+                        <audio id="song1" title="Dont forget me"> <!-- Music -->
                             <source src="./src/mps/relaxing/Dont-Forget-Me(chosic.com).mp3" type="audio/ogg">
                         </audio>
-                        <audio id="song2">
+                        <audio id="song2" title="Starring at the night sky">
                             <source src="./src/mps/relaxing/mixkit-staring-at-the-night-sky-168.mp3" type="audio/ogg">
                         </audio>
 
-                        <!-- Backward -->
+                        <!-- Rewind -->
                         <svg class="backwards w-10 h-10 hover:text-black cursor-pointer transition-all duration-500 cursor-pointer"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path
@@ -40,6 +40,7 @@
                             <path d="M8 5v14l11-7z" />
                         </svg>
 
+                        <!-- Pause -->
                         <svg class="pause w-10 h-10 hidden hover:text-black cursor-pointer transition-all duration-500 cursor-pointer"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
@@ -51,6 +52,18 @@
                             <path
                                 d="M5.58 16.89l5.77-4.07c.56-.4.56-1.24 0-1.63L5.58 7.11C4.91 6.65 4 7.12 4 7.93v8.14c0 .81.91 1.28 1.58.82zM13 7.93v8.14c0 .81.91 1.28 1.58.82l5.77-4.07c.56-.4.56-1.24 0-1.63l-5.77-4.07c-.67-.47-1.58 0-1.58.81z" />
                         </svg>
+
+
+                    </div>
+                    <!-- Audio progress line -->
+                    <div class="w-full bg-gray-200 rounded-full h-1">
+                        <div id="progressBar" class="bg-stone-900 h-1 rounded-full transition-all duration-100"
+                            style="width: 0%">
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-xs text-white mt-1">
+                        <span id="currentTime">0:00</span>
+                        <span id="duration">0:00</span>
                     </div>
                 </div>
             </div>
@@ -64,8 +77,23 @@
         const rewindButton = document.querySelector('.backwards');
         const song1 = document.querySelector('#song1');
         const song2 = document.querySelector('#song2');
-        const audio = document.querySelector('audio');
+        const imageContainer = document.querySelector('.images');
+        const progressBar = document.getElementById('progressBar');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
 
+        // Bildwechsel beim Songwechsel
+        function changeImage() {
+            if (!song1.paused) {
+                imageContainer.classList.add('image1');
+                imageContainer.classList.remove('image2');
+            } else {
+                imageContainer.classList.add('image2');
+                imageContainer.classList.remove('image1');
+            }
+        }
+
+        // Vernderung wenn ein Lied spielt
         function stateOfSong() {
             // wenn ein Lied spielt
             if (!song1.paused || !song2.paused) {
@@ -78,49 +106,118 @@
             }
         }
 
-        playButton.addEventListener('click', () => {
-            if(song1.paused){
-                song1.play()
+        function updateProgress() {
+            // const audio = !song1.paused ? song1 : !song2.paused ? song2 : null; =
+            let audio;
+            if (!song1.paused) {
+                audio = song1;
+            } else if (!song2.paused) {
+                audio = song2;
             } else {
-                song2.play();
+                audio = null;
             }
-            stateOfSong(); // 👈 HIER
+
+            if (audio && audio.duration) {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = progress + '%';
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            }
+        }
+
+        function updateDuration() {
+            // const audio = song1.duration ? song1 : song2.duration ? song2 : null; =
+            let audio;
+            if (song1.duration) {
+                audio = song1;
+            } else if (!song.duration) {
+                audio = song2;
+            } else {
+                audio = null;
+            }
+
+            if (audio && audio.duration) {
+                // Zeige die Gesamtlänge an
+                durationEl.textContent = formatTime(audio.duration);
+            }
+        }
+
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60);  // Minuten berechnen
+            const sec = Math.floor(seconds % 60);  // Rest-Sekunden berechnen
+            return min + ':' + (sec < 10 ? '0' : '') + sec; // Formatieren
+        }
+
+        playButton.addEventListener('click', () => {
+            if (!song1.paused) {
+                song1.pause();
+            } else if(!song2.paused){
+                song2.pause();
+            } else {
+                song1.play();
+            }
+
+            stateOfSong();
+            changeImage();
         })
 
         pauseButton.addEventListener('click', () => {
-            if(!song1.paused) {
+            if (!song1.paused) {
                 song1.pause();
             } else {
                 song2.pause();
             }
-            stateOfSong(); // 👈 HIER
+            stateOfSong();
+            changeImage();
         })
 
         fastForwardsButton.addEventListener('click', () => {
             if (!song1.paused) {
                 song1.pause();
                 song2.play();
-            } else if (!song2.paused) {
-                song2.pause();
-                song1.play();
             } else {
+                song2.pause();
                 song1.play();
             }
             stateOfSong();
+            changeImage();
         })
 
         rewindButton.addEventListener('click', () => {
             if (!song1.paused) {
                 song1.pause();
                 song2.play();
-            } else if (!song2.paused) {
+            } else {
                 song2.pause();
                 song1.play();
-            } else {
-                song2.play();
             }
             stateOfSong();
+            changeImage();
         })
+
+        // Bei ALLEN Audio-Änderungen aufrufen:
+        song1.addEventListener('play', changeImage);
+        song1.addEventListener('pause', changeImage);
+        song2.addEventListener('play', changeImage);
+        song2.addEventListener('pause', changeImage);
+
+        // Fortschritt für Song1 aktualisieren
+        song1.addEventListener('timeupdate', updateProgress);
+        song1.addEventListener('loadedmetadata', updateDuration);
+
+        // Fortschritt für Song2 aktualisieren  
+        song2.addEventListener('timeupdate', updateProgress);
+        song2.addEventListener('loadedmetadata', updateDuration);
+
+        // Klick auf Progress-Balken zum Springen
+        progressBar.parentElement.addEventListener('click', (e) => {
+            const audio = !song1.paused ? song1 : !song2.paused ? song2 : null;
+
+            if (audio) {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                audio.currentTime = percent * audio.duration;
+            }
+        });
 
     </script>
 </body>
