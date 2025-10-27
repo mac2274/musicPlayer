@@ -77,6 +77,7 @@
         const rewindButton = document.querySelector('.backwards');
         const song1 = document.querySelector('#song1');
         const song2 = document.querySelector('#song2');
+        const title = document.querySelector('.songTitle');
         const imageContainer = document.querySelector('.images');
         const progressBar = document.getElementById('progressBar');
         const currentTimeEl = document.getElementById('currentTime');
@@ -85,11 +86,13 @@
         // Bildwechsel beim Songwechsel
         function changeImage() {
             if (!song1.paused) {
-                imageContainer.classList.add('image1');
+                imageContainer.classList.add('image1'); // Bild1
                 imageContainer.classList.remove('image2');
+                title.textContent = song1.title; // Songtitle1
             } else {
-                imageContainer.classList.add('image2');
+                imageContainer.classList.add('image2'); //Bild2
                 imageContainer.classList.remove('image1');
+                title.textContent = song2.title;
             }
         }
 
@@ -127,9 +130,12 @@
         function updateDuration() {
             // const audio = song1.duration ? song1 : song2.duration ? song2 : null; =
             let audio;
+            console.log('Song1 duration:', song1.duration);
+            console.log('Song2 duration:', song2.duration);
+
             if (song1.duration) {
                 audio = song1;
-            } else if (!song.duration) {
+            } else if (!song2.duration) {
                 audio = song2;
             } else {
                 audio = null;
@@ -150,10 +156,10 @@
         playButton.addEventListener('click', () => {
             if (!song1.paused) {
                 song1.pause();
-            } else if(!song2.paused){
+            } else if (!song2.paused) {
                 song2.pause();
             } else {
-                song1.play();
+                song1.load();
             }
 
             stateOfSong();
@@ -173,9 +179,11 @@
         fastForwardsButton.addEventListener('click', () => {
             if (!song1.paused) {
                 song1.pause();
+                song2.currentTime = 0;
                 song2.play();
             } else {
                 song2.pause();
+                song1.currentTime = 0;
                 song1.play();
             }
             stateOfSong();
@@ -185,9 +193,11 @@
         rewindButton.addEventListener('click', () => {
             if (!song1.paused) {
                 song1.pause();
+                song2.currentTime = 0;
                 song2.play();
             } else {
                 song2.pause();
+                song1.currentTime = 0;
                 song1.play();
             }
             stateOfSong();
